@@ -1,0 +1,49 @@
+{
+  "name": "react-tailwand-and-all",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^5.9.1",
+    "@reduxjs/toolkit": "^2.12.0",
+    "@tailwindcss/vite": "^4.3.0",
+    "@tanstack/react-query": "^5.101.0",
+    "axios": "^1.16.1",
+    "daisyui": "^5.7.22",
+    "dayjs": "^1.11.20",
+    "framer-motion": "^12.40.0",
+    "lucide-react": "^1.34.0",
+    "react": "^19.2.6",
+    "react-datepicker": "^9.1.0",
+    "react-dom": "^19.2.6",
+    "react-hook-form": "^7.76.0",
+    "react-icons": "^5.6.0",
+    "react-redux": "^9.3.0",
+    "react-router-dom": "^7.15.1",
+    "react-spinners": "^0.17.0",
+    "react-toastify": "^11.1.0",
+    "sonner": "^2.0.8",
+    "tailwindcss": "^4.3.0",
+    "use-debounce": "^10.1.1",
+    "yup": "^1.7.1",
+    "zod": "^4.4.3",
+    "zustand": "^5.0.15"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "eslint": "^10.3.0",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
+    "globals": "^17.6.0",
+    "vite": "^8.0.12"
+  }
+}
