@@ -228,7 +228,7 @@ function Dashboard() {
 
         {/* Desktop Table */}
         <div className="hidden overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm lg:block">
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto bg-white">
             <table className="w-full text-left">
               <thead className="border-b border-gray-200 bg-gray-50">
                 <tr>
