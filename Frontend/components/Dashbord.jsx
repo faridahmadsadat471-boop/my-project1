@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Trash2, Pencil, Plus, X, BookOpen } from "lucide-react";
+import axios from "axios";
 
 function Dashboard() {
   const [books, setBooks] = useState([]);
@@ -10,10 +11,9 @@ function Dashboard() {
 
   const [form, setForm] = useState({
     name: "",
-    title: "",
+    description: "",
     author: "",
     price: "",
-    date: "",
   });
 
   const handleChange = (e) => {
@@ -53,13 +53,17 @@ function Dashboard() {
       );
     } else {
       const newBook = {
-        id: Date.now(),
         ...form,
         price: Number(form.price),
       };
-
-      setBooks([...books, newBook]);
+      axios
+        .post("http://localhost:3000/api/v1/bookstore/", newBook)
+        .then(() => {
+          setBooks([...books, newBook]);
+        })
+        .catch((error) => console.log(error.response.data));
     }
+    axios.get("http://localhost:3000/api/v1/bookstore/");
 
     resetForm();
   };
@@ -67,10 +71,9 @@ function Dashboard() {
   const handleEdit = (book) => {
     setForm({
       name: book.name,
-      title: book.title,
+      description: book.description,
       author: book.author,
       price: book.price,
-      date: book.date,
     });
 
     setEditingId(book.id);
@@ -124,7 +127,7 @@ function Dashboard() {
 
         {/* Form */}
         {showForm && (
-          <div className="mb-8 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm sm:p-7">
+          <div className=" mb-8 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm sm:p-7">
             <h2 className="mb-6 text-xl font-bold text-gray-900">
               {editingId ? "Edit Book" : "Add New Book"}
             </h2>
@@ -152,16 +155,18 @@ function Dashboard() {
               {/* Title */}
               <div>
                 <label className="mb-2 block text-sm font-medium text-gray-700">
-                  Book Title
+                  Book Description
                 </label>
 
-                <input
+                <textarea
                   name="title"
-                  value={form.title}
-                  onChange={handleChange}
+                  value={form.description}
+                  onChange={(e) =>
+                    setForm({ ...form, description: e.target.value })
+                  }
                   required
-                  placeholder="Book Title"
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2.5 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+                  placeholder="Book description"
+                  className="max-h-20 min-h-12 w-full rounded-lg border border-gray-300 px-3 py-2.5 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
                 />
               </div>
 
@@ -198,22 +203,6 @@ function Dashboard() {
                 />
               </div>
 
-              {/* Date */}
-              <div>
-                <label className="mb-2 block text-sm font-medium text-gray-700">
-                  Publish Date
-                </label>
-
-                <input
-                  name="date"
-                  type="date"
-                  value={form.date}
-                  onChange={handleChange}
-                  required
-                  className="w-full rounded-lg border border-gray-300 px-3 py-2.5 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
-                />
-              </div>
-
               <div className="sm:col-span-2 lg:col-span-5">
                 <button
                   type="submit"
@@ -237,7 +226,7 @@ function Dashboard() {
                   </th>
 
                   <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500">
-                    Book Title
+                    Book Description
                   </th>
 
                   <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500">

@@ -29,10 +29,6 @@ function BookInfo() {
     navigate("/");
   }
 
-  function updateBook(id) {
-    console.log(id);
-  }
-
   return (
     <div className="w-screen h-[calc(100vh-66px)]  flex items-center justify-center overflow-x-hidden  ">
       <div className="h-102 group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:shadow-xl w-150">
@@ -53,12 +49,8 @@ function BookInfo() {
               Delete
             </button>
 
-            <Link to={"/update/:id"}>
-              <button
-                className="h-10 w-30 bg-green-500 border-2 border-green-700 rounded-md cursor-pointer text-white font-bold"
-                onClick={() => updateBook(book._id)}
-                
-              >
+            <Link to={`/update/${book?._id}`}>
+              <button className="h-10 w-30 bg-green-500 border-2 border-green-700 rounded-md cursor-pointer text-white font-bold">
                 Update
               </button>
             </Link>

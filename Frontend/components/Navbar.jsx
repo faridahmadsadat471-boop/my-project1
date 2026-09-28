@@ -1,5 +1,12 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
-import { LogIn, LogOut, LayoutDashboard } from "lucide-react";
+import {
+  LogIn,
+  LogOut,
+  LayoutDashboard,
+  HomeIcon,
+  Contact2Icon,
+  InfoIcon,
+} from "lucide-react";
 
 function Navbar() {
   const navigate = useNavigate();
@@ -26,8 +33,9 @@ function Navbar() {
           <div className="hidden items-center gap-8 md:flex">
             <Link
               to="/"
-              className="text-sm font-medium text-gray-700 transition hover:text-indigo-600"
+              className="flex items-center gap-1 text-sm font-medium text-gray-700 transition hover:text-indigo-600"
             >
+              <HomeIcon size={17} />
               Home
             </Link>
 
@@ -43,15 +51,17 @@ function Navbar() {
 
             <Link
               to="/about"
-              className="text-sm font-medium text-gray-700 transition hover:text-indigo-600"
+              className="flex items-center gap-1 text-sm font-medium text-gray-700 transition hover:text-indigo-600"
             >
+              <InfoIcon size={17} />
               About
             </Link>
 
             <Link
               to="/contact"
-              className="text-sm font-medium text-gray-700 transition hover:text-indigo-600"
+              className="flex items-center gap-1 text-sm font-medium text-gray-700 transition hover:text-indigo-600"
             >
+              <Contact2Icon size={17} />
               Contact
             </Link>
           </div>

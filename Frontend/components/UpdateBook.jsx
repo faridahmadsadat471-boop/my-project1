@@ -1,5 +1,42 @@
+import axios from "axios";
 import { BookOpen } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 function UpdateBook() {
+  const navigate = useNavigate();
+  const { id } = useParams();
+
+  const [name, setName] = useState();
+  const [description, setDescription] = useState();
+  const [author, setAuthor] = useState();
+  const [price, setPrice] = useState();
+
+  useEffect(() => {
+    axios.get("http://localhost:3000/api/v1/bookstore/" + id).then((res) => {
+      const { name, descreption, author, price } = res.data[0];
+
+      setName(name);
+      setAuthor(author);
+      setDescription(descreption);
+      setPrice(price);
+    });
+  }, []);
+
+  function updateHandler(e) {
+    e.preventDefault();
+    axios
+      .patch("http://localhost:3000/api/v1/bookstore/" + id, {
+        name,
+        author,
+        description,
+        price,
+      })
+      .then(() => {
+        navigate("/");
+      })
+      .catch((error) => console.log(error.response.data));
+  }
+
   return (
     <>
       <div className=" mt-6 ml-8">
@@ -10,10 +47,10 @@ function UpdateBook() {
 
           <div>
             <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">
-              Book Dashboard
+              Update Book
             </h1>
 
-            <p className="text-sm text-gray-500">Manage your books</p>
+            <p className="text-sm text-gray-500">Update your books</p>
           </div>
         </div>
       </div>
@@ -21,7 +58,10 @@ function UpdateBook() {
       <div className="mb-8 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm sm:p-7 mt-6 m-10">
         <h2 className="mb-6 text-xl font-bold text-gray-900"></h2>
 
-        <form className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5">
+        <form
+          className="grid gap-5 sm:grid-cols-2 lg:grid-cols-5"
+          onSubmit={updateHandler}
+        >
           {/* Book Name */}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
@@ -32,21 +72,24 @@ function UpdateBook() {
               name="name"
               required
               placeholder="Book Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className="w-full rounded-lg border border-gray-300 px-3 py-2.5 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
             />
           </div>
 
-          {/* Title */}
           <div>
             <label className="mb-2 block text-sm font-medium text-gray-700">
-              Book Title
+              Book description
             </label>
 
-            <input
-              name="title"
+            <textarea
+              name="name"
               required
-              placeholder="Book Title"
-              className="w-full rounded-lg border border-gray-300 px-3 py-2.5 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+              placeholder="Book description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full rounded-lg border max-h-20 min-h-12 border-gray-300 px-3 py-2.5 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
             />
           </div>
 
@@ -60,6 +103,8 @@ function UpdateBook() {
               name="author"
               required
               placeholder="Author"
+              value={author}
+              onChange={(e) => setAuthor(e.target.value)}
               className="w-full rounded-lg border border-gray-300 px-3 py-2.5 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
             />
           </div>
@@ -71,6 +116,8 @@ function UpdateBook() {
             </label>
 
             <input
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
               name="price"
               type="number"
               required
@@ -79,62 +126,15 @@ function UpdateBook() {
             />
           </div>
 
-          {/* Date */}
-          <div>
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-              Publish Date
-            </label>
-
-            <input
-              name="date"
-              type="date"
-              required
-              className="w-full rounded-lg border border-gray-300 px-3 py-2.5 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
-            />
-          </div>
-
           <div className="sm:col-span-2 lg:col-span-5">
             <button
               type="submit"
-              className="rounded-lg bg-gray-900 px-7 py-3 font-semibold text-white transition hover:bg-black"
+              className="rounded-lg bg-gray-900 px-7 py-3 font-semibold text-white transition cursor-pointer hover:bg-black"
             >
               Update book
             </button>
           </div>
         </form>
-      </div>
-      <div className="hidden overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm lg:block m-10 cursor-pointer">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left">
-            <thead className="border-b border-gray-200 bg-gray-50">
-              <tr>
-                <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500">
-                  Book Name
-                </th>
-
-                <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500">
-                  Book Title
-                </th>
-
-                <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500">
-                  Author
-                </th>
-
-                <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500">
-                  Selling Price
-                </th>
-
-                <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500">
-                  Publish Date
-                </th>
-
-                <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500">
-                  Action
-                </th>
-              </tr>
-            </thead>
-          </table>
-        </div>
       </div>
     </>
   );
