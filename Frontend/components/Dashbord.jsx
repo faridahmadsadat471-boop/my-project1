@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Trash2, Pencil, Plus, X, BookOpen } from "lucide-react";
 import axios from "axios";
 
@@ -11,11 +11,16 @@ function Dashboard() {
 
   const [form, setForm] = useState({
     name: "",
-    description: "",
+    descreption: "",
     author: "",
     price: "",
   });
 
+  useEffect(() => {
+    axios.get("http://localhost:3000/api/v1/bookstore/").then((res) => {
+      setBooks(res.data);
+    });
+  }, [form]);
   const handleChange = (e) => {
     setForm({
       ...form,
@@ -26,7 +31,7 @@ function Dashboard() {
   const resetForm = () => {
     setForm({
       name: "",
-      title: "",
+      descreption: "",
       author: "",
       price: "",
       date: "",
@@ -63,7 +68,6 @@ function Dashboard() {
         })
         .catch((error) => console.log(error.response.data));
     }
-    axios.get("http://localhost:3000/api/v1/bookstore/");
 
     resetForm();
   };
@@ -71,7 +75,7 @@ function Dashboard() {
   const handleEdit = (book) => {
     setForm({
       name: book.name,
-      description: book.description,
+      descreption: book.descreption,
       author: book.author,
       price: book.price,
     });
@@ -155,17 +159,17 @@ function Dashboard() {
               {/* Title */}
               <div>
                 <label className="mb-2 block text-sm font-medium text-gray-700">
-                  Book Description
+                  Book descreption
                 </label>
 
                 <textarea
-                  name="title"
-                  value={form.description}
+                  name="description"
+                  value={form.descreption}
                   onChange={(e) =>
-                    setForm({ ...form, description: e.target.value })
+                    setForm({ ...form, descreption: e.target.value })
                   }
                   required
-                  placeholder="Book description"
+                  placeholder="Book descreption"
                   className="max-h-20 min-h-12 w-full rounded-lg border border-gray-300 px-3 py-2.5 outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
                 />
               </div>
@@ -216,10 +220,10 @@ function Dashboard() {
         )}
 
         {/* Desktop Table */}
-        <div className="hidden overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm lg:block">
-          <div className="overflow-x-auto bg-white">
-            <table className="w-full text-left">
-              <thead className="border-b border-gray-200 bg-gray-50">
+        <div className="hidden overflow-hidden rounded-2xl  border border-gray-200 bg-white shadow-sm lg:block">
+          <div className="overflow-x-auto bg-white ">
+            <table className="w-full text-left mb-3 pb-4 ">
+              <thead className="border-b mb-3 border-gray-200 pb-4  bg-gray-50">
                 <tr>
                   <th className="px-6 py-4 text-xs font-bold uppercase tracking-wider text-gray-500">
                     Book Name
@@ -247,7 +251,7 @@ function Dashboard() {
                 </tr>
               </thead>
 
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-gray-1 ">
                 {books.map((book) => (
                   <tr key={book.id} className="transition hover:bg-gray-50">
                     <td className="px-6 py-5 font-semibold text-gray-800">
@@ -255,7 +259,7 @@ function Dashboard() {
                     </td>
 
                     <td className="max-w-xs px-6 py-5 text-sm text-gray-600">
-                      {book.title}
+                      {book?.descreption}
                     </td>
 
                     <td className="px-6 py-5 text-gray-700">{book.author}</td>
@@ -264,7 +268,9 @@ function Dashboard() {
                       {book.price}
                     </td>
 
-                    <td className="px-6 py-5 text-gray-600">{book.date}</td>
+                    <td className="px-6 py-5 text-gray-600">
+                      {book.createdAt.split("T")[0]}
+                    </td>
 
                     <td className="px-6 py-5">
                       <div className="flex gap-2">
@@ -303,7 +309,9 @@ function Dashboard() {
                 <div>
                   <h3 className="font-bold text-gray-900">{book.name}</h3>
 
-                  <p className="mt-1 text-sm text-gray-500">{book.title}</p>
+                  <p className="mt-1 text-sm text-gray-500">
+                    {book.descreption}
+                  </p>
                 </div>
 
                 <div className="flex shrink-0 gap-2">
